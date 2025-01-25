@@ -1,10 +1,9 @@
 import AppRoutes from "../AppRoutes";
-function App() {
 
+function App() {
   return (
     <>
-      <div className="bg-black h-screen ">
-      
+      <div className="">
         <AppRoutes />
       </div>
     </>
