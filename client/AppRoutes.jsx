@@ -8,6 +8,8 @@ import UserTableBooking from "./src/pages/UserTableBooking";
 import Slots from "./src/pages/Slots";
 import AdminAddRestaurant from "./src/pages/admin/AdminAddRestaurant";
 import ResetPassword from "./src/pages/ResetPassword";
+import AdminDashboard from "./src/pages/admin/AdminDashboard";
+import RestaurantDashboard from "./src/pages/restaurant/RestaurantDashboard";
 const AppRoutes = () => {
   return (
     <Router>
@@ -20,9 +22,12 @@ const AppRoutes = () => {
         <Route path="/viewrestaurant" element={<UserViewRestaurant />} />
         <Route path="/tablebooking" element={<UserTableBooking />} />
         <Route path="/slot" element={<Slots />} />
-
         {/* admin routes*/}
         <Route path="/profile" element={<AdminAddRestaurant />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
+        {/* restaurant routes*/}
+        <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
+
       </Routes>
     </Router>
   );

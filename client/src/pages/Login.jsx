@@ -26,19 +26,28 @@ function UserLogin() {
     setIsLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
       const response = await axios.post(
         "https://vision-n5ju.onrender.com/api/users/login",
         formData
       );
+  
+      const { token  } = response.data; 
+      const { role  } = response.data.user;
       setSuccess("Login Successful!");
-      localStorage.setItem("token", response.data.token);
-
-      
+      localStorage.setItem("token", token);
+  
+      // Redirect based on the user's role
       setTimeout(() => {
         setSuccess(null);
-        navigate("/home"); // Change `/dashboard` to your target route
+        if (role === 1) {
+          navigate("/admindashboard"); 
+        } else if (role === 2) {
+          navigate("/restaurantdashboard");
+        } else if (role === 3) {
+          navigate("/home"); 
+        }
       }, 1000);
     } catch (error) {
       setError(error.response?.data?.message || "Login Failed");
@@ -47,6 +56,7 @@ function UserLogin() {
       setIsLoading(false);
     }
   };
+  
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-cover bg-center lg:bg-[url('/src/assets/bgimage2.svg')]">
