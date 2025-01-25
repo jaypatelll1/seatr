@@ -9,8 +9,7 @@ function App() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Hero Background Image */}
-      <div
+        <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage:

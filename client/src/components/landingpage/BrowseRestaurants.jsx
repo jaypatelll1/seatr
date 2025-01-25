@@ -18,7 +18,7 @@ function BrowseRestaurants({ location, setLocation, cuisine, setCuisine }) {
               placeholder="All Location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-black rounded-lg focus:border-white-500 outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg focus:border-white-500 outline-none"
             />
           </div>
         </div>
@@ -32,13 +32,13 @@ function BrowseRestaurants({ location, setLocation, cuisine, setCuisine }) {
               placeholder="Cuisine"
               value={cuisine}
               onChange={(e) => setCuisine(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-black rounded-lg focus:border-white-500 outline-none"
+              className="w-full pl-10 pr-4 py-3 rounded-lg focus:border-white-500 outline-none"
             />
           </div>
         </div>
 
         {/* Search Button */}
-        <button className="bg-white border border-black hover:bg-orange-200 text-black px-8 py-3 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+        <button className="bg-white  hover:bg-orange-200 px-8 py-3 text-gray-500 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
           <Search className="w-5 h-5" />
           <span>Find Restaurants</span>
         </button>
