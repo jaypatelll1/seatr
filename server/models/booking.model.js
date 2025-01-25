@@ -1,112 +1,65 @@
-const db = require('../config/db');
+const { query } = require('../config/db');
 
-const bookingModel = {
-  // Fetch bookings with optional filters
-  async getBookings(userId, filters = {}) {
-    let query = `
-      SELECT b.*, r.name AS restaurant_name 
-      FROM Bookings b
-      JOIN Restaurants r ON b.restaurant_id = r.restaurant_id
-      WHERE b.user_id = $1
-    `;
-    const params = [userId];
-    let paramCount = 2;
-
-    if (filters.status) {
-      query += ` AND b.status = $${paramCount}`;
-      params.push(filters.status);
-      paramCount++;
-    }
-
-    if (filters.restaurant_id) {
-      query += ` AND b.restaurant_id = $${paramCount}`;
-      params.push(filters.restaurant_id);
-      paramCount++;
-    }
-
-    const result = await db.query(query, params);
-    return result.rows;
-  },
 
   // Create a new booking
-  async createBooking(userId, bookingData) {
-    const { 
-      restaurant_id, 
-      table_ids, 
-      guest_count, 
-      start_time, 
-      end_time, 
-      booking_type 
-    } = bookingData;
-
-    const result = await db.query(
-      `INSERT INTO Bookings 
-      (user_id, restaurant_id, table_ids, guest_count, start_time, end_time, booking_type, status) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, 'PENDING') 
+   exports.createBooking = async( bookingData)=> {
+    const { restaurant_id, booking_time,user_id,  start_time,end_time } = bookingData;
+    const result = await query(
+      `INSERT INTO Bookings (user_id, restaurant_id, booking_time, status ,  start_time,end_time) 
+      VALUES ($1, $2, $3, $4 ,$5,$6 ) 
       RETURNING *`,
-      [
-        userId, 
-        restaurant_id, 
-        table_ids, 
-        guest_count, 
-        start_time, 
-        end_time, 
-        booking_type
-      ]
+      [user_id, restaurant_id, booking_time,11 ,  start_time,end_time]
     );
     return result.rows[0];
   },
 
-  // Get specific booking details
-  async getBookingById(bookingId, userId) {
-    const result = await db.query(
-      `SELECT b.*, r.name AS restaurant_name 
-       FROM Bookings b
-       JOIN Restaurants r ON b.restaurant_id = r.restaurant_id
-       WHERE b.booking_id = $1 AND b.user_id = $2`,
+  // Get booking details by bookingId
+   exports.getBookingById= async(bookingId, userId)=> {
+    const result = await query(
+      `SELECT b.*, r.name AS restaurant_name
+      FROM Bookings b
+      JOIN Restaurants r ON b.restaurant_id = r.restaurant_id
+      WHERE b.booking_id = $1 AND b.user_id = $2`,
       [bookingId, userId]
     );
     return result.rows[0];
   },
 
-  // Cancel a booking
-  async cancelBooking(bookingId, userId) {
-    const result = await db.query(
-      `UPDATE Bookings 
-       SET status = 'CANCELLED', 
-           updated_at = NOW() 
-       WHERE booking_id = $1 AND user_id = $2 
-       RETURNING *`,
+  // Cancel a booking (Set status to 'canceled')
+   exports.cancelBooking = async(bookingId, userId)=> {
+    const result = await query(
+      `UPDATE Bookings
+      SET status = 13, updated_at = NOW()  -- assuming 13 is canceled status
+      WHERE booking_id = $1 AND user_id = $2
+      RETURNING *`,
       [bookingId, userId]
     );
     return result.rows[0];
   },
 
   // Complete a booking (Admin only)
-  async completeBooking(bookingId) {
-    const result = await db.query(
-      `UPDATE Bookings 
-       SET status = 'COMPLETED', 
-           updated_at = NOW() 
-       WHERE booking_id = $1 
-       RETURNING *`,
+   exports.completeBooking = async(bookingId) => {
+    const result = await query(
+      `UPDATE bookings
+      SET status = 12, updated_at = NOW()  -- assuming 14 is completed status
+      WHERE booking_id = $1
+      RETURNING *`,
       [bookingId]
     );
     return result.rows[0];
   },
 
-  // Release a table
-  async releaseBooking(bookingId) {
-    const result = await db.query(
-      `UPDATE Bookings 
-       SET status = 'RELEASED', 
-           updated_at = NOW() 
-       WHERE booking_id = $1 
-       RETURNING *`,
+  // Release a booking (Free up the reservation, Set status to released)
+  exports.releaseBooking = async(bookingId)=> {
+    const result = await query(
+      `UPDATE Bookings
+      SET status = 15, updated_at = NOW()  -- assuming 15 is released status
+      WHERE booking_id = $1
+      RETURNING *`,
       [bookingId]
     );
     return result.rows[0];
   }
-};
 
-module.exports = bookingModel;
+
+

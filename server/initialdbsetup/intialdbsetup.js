@@ -47,6 +47,8 @@ CREATE TABLE IF NOT EXISTS Tables (
     is_available BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    joinable_to JSONB DEFAULT '[]';
+    joinable_to INT[] DEFAULT '{}';
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE
 );
 
@@ -55,7 +57,6 @@ CREATE TABLE IF NOT EXISTS Bookings (
     booking_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     restaurant_id INT NOT NULL,
-    table_id INT NOT NULL,
     booking_time TIMESTAMP NOT NULL,
      score INT DEFAULT 200 CHECK (score <= 200), -- Score with a constraint
     status INT NOT NULL, -- FK referencing Enums for status
@@ -65,6 +66,12 @@ CREATE TABLE IF NOT EXISTS Bookings (
     FOREIGN KEY (restaurant_id) REFERENCES Restaurants(restaurant_id) ON DELETE CASCADE,
     FOREIGN KEY (table_id) REFERENCES Tables(table_id) ON DELETE CASCADE,
     FOREIGN KEY (status) REFERENCES Enums(enum_id) ON DELETE CASCADE
+);
+
+CREATE TABLE BookingTables (
+  booking_id INTEGER REFERENCES Bookings(booking_id),  -- Foreign key to Bookings
+  table_id INTEGER REFERENCES Tables(table_id),        -- Foreign key to Tables
+  PRIMARY KEY (booking_id, table_id)                    -- Composite primary key
 );
 
 -- Reviews Table

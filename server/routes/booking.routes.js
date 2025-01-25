@@ -1,17 +1,22 @@
 const express = require('express');
-const bookingController = require('../controllers/booking.controller');
-const { jwtAuthMiddleware } = require('../middleware/jwtAuthMiddleware');
-
 const router = express.Router();
+const bookingController = require('../controllers/bookingController');
+const {jwtAuthMiddleware} = require('../middleware/jwtAuthMiddleware')
+const{authorizeRoles}= require('../middleware/roleMiddleware')
 
-// Apply JWT authentication to all routes
-router.use(jwtAuthMiddleware);
+// Route to create a booking and associate tables
+router.post('/create',jwtAuthMiddleware, bookingController.createBooking);
 
-router.get('/', bookingController.getBookings);
-router.post('/', bookingController.createBooking);
-router.get('/:id', bookingController.getBookingById);
-router.put('/:id/cancel', bookingController.cancelBooking);
-router.put('/:id/complete', bookingController.completeBooking);
-router.put('/:id/release', bookingController.releaseBooking);
+// Route to get booking details with associated tables
+router.get('/:userId/:bookingId', jwtAuthMiddleware,bookingController.getBookingById);
+
+// Route to cancel a booking
+// router.put('/bookings/:bookingId/cancel',jwtAuthMiddleware, bookingController.cancelBooking);
+
+// Route to complete a booking (Admin only)
+router.put('/:bookingId/complete',jwtAuthMiddleware, bookingController.completeBooking);
+
+// // Route to release a booking
+// router.put('/bookings/:bookingId/release', bookingController.releaseBooking);
 
 module.exports = router;

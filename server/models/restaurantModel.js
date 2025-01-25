@@ -85,6 +85,28 @@ exports.updateRestaurant = async (id, updatedFields) => {
 };
 
 
+exports.checkTableAvailability =async (restaurantId, tableIds, startTime, endTime) => {
+  const result = await query(
+    `SELECT t.table_id 
+FROM Tables t
+WHERE t.restaurant_id = $1 
+AND t.table_id = ANY($2)
+AND NOT EXISTS (
+  SELECT 1 FROM Bookings b
+  WHERE b.restaurant_id = $1
+  AND b.table_id = t.table_id
+  AND (
+    (b.start_time < $4 AND b.end_time > $3)
+    OR (b.start_time >= $3 AND b.start_time < $4)
+  )
+  AND b.status NOT IN (12, 13)
+);`,
+    [restaurantId, tableIds, startTime, endTime]
+  );
+  return result.rows;
+}
+
+
 // Delete a restaurant
 exports.deleteRestaurant = async (id) => {
   await query('DELETE FROM Restaurants WHERE restaurant_id = $1', [id]);
