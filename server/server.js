@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 5000;
 const userRoutes= require("./routes/user.routes")
 const restaurantRoutes = require("./routes/restaurantRoutes")
 const passwordResetRoutes = require("./routes/passwordreset.routes");
+const bookingRoutes = require("./routes/booking.routes");
+
 
 // middleware
 app.use(express.json());
@@ -38,6 +40,7 @@ app.use(cors(corsOptions))
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/passwordreset', passwordResetRoutes);
+app.use('/api/booking', bookingRoutes);
 // app.use('/api/')
 // Restaurants Routes
 app.use('/api/restaurants', restaurantRoutes);
