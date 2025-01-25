@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 
-function Home() {
+function UserLanding() {
   return (
     <div>
         <Navbar userName="Siddhant Thakur" email="siddhant@gmail.com"/>
@@ -9,4 +9,4 @@ function Home() {
   )
 }
 
-export default Home
+export default UserLanding
