@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 
 function UserLogin() {
   const [formData, setFormData] = useState({
@@ -12,8 +13,8 @@ function UserLogin() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const navigate = useNavigate(); // Initialize the navigate function
-  const dispatch = useDispatch(); // Initialize Redux dispatch
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,27 +29,38 @@ function UserLogin() {
     setIsLoading(true);
     setError(null);
     setSuccess(null);
-  
+
     try {
       const response = await axios.post(
         "https://vision-n5ju.onrender.com/api/users/login",
         formData
       );
-  
-      const { token  } = response.data; 
-      const { role  } = response.data.user;
+
+      const { token, user } = response.data;
+      const { role, id, name } = user;
+
       setSuccess("Login Successful!");
       localStorage.setItem("token", token);
-  
-      // Redirect based on the user's role
+
+      // Dispatch user data to Redux
+      dispatch(
+        setUser({
+          token,
+          role,
+          id,
+          name,
+        })
+      );
+
+      // Redirect based on role
       setTimeout(() => {
         setSuccess(null);
         if (role === 1) {
-          navigate("/admindashboard"); 
+          navigate("/admindashboard");
         } else if (role === 2) {
           navigate("/restaurantdashboard");
         } else if (role === 3) {
-          navigate("/home"); 
+          navigate("/home");
         }
       }, 1000);
     } catch (error) {
@@ -58,7 +70,6 @@ function UserLogin() {
       setIsLoading(false);
     }
   };
-  
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-cover bg-center lg:bg-[url('/src/assets/bgimage2.svg')]">

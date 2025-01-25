@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { GoogleMap, LoadScript, MarkerF, InfoWindow } from "@react-google-maps/api";
 
-const GoogleMapComponent = ({ restaurants }) => {
+const GoogleMapComponent = ({ restaurants, userLocation }) => {
   const containerStyle = {
     width: "100%",
-    height: "90vh",
+    height: "94vh",
   };
 
-  // Default center for the map (set to the first restaurant's location or a default value)
-  const center = restaurants.length
-    ? { lat: restaurants[0].latitude, lng: restaurants[0].longitude }
-    : { lat: 0, lng: 0 }; // Fallback center in case no data is passed
+  // Default center for the map
+  const center = userLocation || { lat: 19.126760890130438, lng: 72.84976249009534 };
 
   const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -25,13 +23,24 @@ const GoogleMapComponent = ({ restaurants }) => {
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-        {/* Render markers based on restaurants passed as props */}
+        {/* User Location Marker */}
+        {userLocation && (
+          <MarkerF
+            position={userLocation}
+            title="You are here"
+            icon={{
+              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            }}
+          />
+        )}
+
+        {/* Restaurant Markers */}
         {restaurants.map((restaurant, index) => (
           <MarkerF
             key={index}
             position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
             title={restaurant.name}
-            onClick={() => handleMarkerClick(restaurant)} // Pass restaurant details to state
+            onClick={() => handleMarkerClick(restaurant)}
           />
         ))}
 

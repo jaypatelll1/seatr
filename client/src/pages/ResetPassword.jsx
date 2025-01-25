@@ -74,7 +74,8 @@ function ResetPassword() {
         newPassword: formData.newPassword
       });
       setSuccess('Password Reset Successful');
-      navigate("/"); 
+      setTimeout(() => navigate('/'), 2000); // 
+     
 
       setStage('email');
     } catch (error) {
