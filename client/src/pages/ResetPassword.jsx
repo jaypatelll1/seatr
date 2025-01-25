@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const [stage, setStage] = useState('email');
@@ -11,6 +12,7 @@ function ResetPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,6 +74,8 @@ function ResetPassword() {
         newPassword: formData.newPassword
       });
       setSuccess('Password Reset Successful');
+      navigate("/"); 
+
       setStage('email');
     } catch (error) {
       setError(error.response?.data?.message || 'Failed to reset password');
