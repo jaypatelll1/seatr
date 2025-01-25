@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import the `useNavigate` hook
 
 function UserLogin() {
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -25,13 +28,20 @@ function UserLogin() {
     setSuccess(null);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', formData);
-      setSuccess('Login Successful!');
-      // Store token or user info in localStorage/context
-      localStorage.setItem('token', response.data.token);
-      setTimeout(() => setSuccess(null), 3000);
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        formData
+      );
+      setSuccess("Login Successful!");
+      localStorage.setItem("token", response.data.token);
+
+      // Redirect to the dashboard or home page after a short delay
+      setTimeout(() => {
+        setSuccess(null);
+        navigate("/home"); // Change `/dashboard` to your target route
+      }, 1000);
     } catch (error) {
-      setError(error.response?.data?.message || 'Login Failed');
+      setError(error.response?.data?.message || "Login Failed");
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsLoading(false);
@@ -50,7 +60,7 @@ function UserLogin() {
           {error}
         </div>
       )}
-      
+
       <div className="flex flex-wrap w-10/12 lg:w-6/12 max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
         <div className="w-full lg:w-6/12 p-8 flex flex-col justify-center">
           <h2 className="text-3xl font-bold text-orange-500 mb-6">
@@ -58,7 +68,10 @@ function UserLogin() {
           </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
                 Email
               </label>
               <input
@@ -73,7 +86,10 @@ function UserLogin() {
               />
             </div>
             <div>
-              <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
                 Password
               </label>
               <input
@@ -93,18 +109,37 @@ function UserLogin() {
               className="w-full bg-orange-500 text-white font-medium rounded-lg text-sm px-5 py-3 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300 flex items-center justify-center"
             >
               {isLoading ? (
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
               ) : (
-                'Login'
+                "Login"
               )}
             </button>
           </form>
           <p className="mt-4 text-sm text-gray-500 text-center">
             Don't have an account?{" "}
-            <a href="#" className="text-orange-500 hover:underline font-medium">
+            <a
+              onClick={() => navigate("/signup")} // Navigate to the register page
+              className="text-orange-500 hover:underline font-medium cursor-pointer"
+            >
               Register
             </a>
           </p>
@@ -114,7 +149,9 @@ function UserLogin() {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             Create Account
           </h2>
-          <p className="text-gray-800 mb-6 font-medium text-md">What does Seatr provide?</p>
+          <p className="text-gray-800 mb-6 font-medium text-md">
+            What does Seatr provide?
+          </p>
           <ul className="space-y-4 text-gray-600">
             <li className="flex items-start">
               <span className="mr-2 text-orange-500 font-bold">•</span>
