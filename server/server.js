@@ -4,16 +4,16 @@ const express = require('express')
 
 // initialize app
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 // import routes
-const {userRoutes}= require("./routes/userRoutes")
+const userRoutes= require("./routes/userRoutes")
 
 // middleware
 app.use(express.json());
 
 // Routes
-// app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 
 app.listen(PORT, () => {

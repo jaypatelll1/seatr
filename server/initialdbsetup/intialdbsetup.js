@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS Bookings (
     restaurant_id INT NOT NULL,
     table_id INT NOT NULL,
     booking_time TIMESTAMP NOT NULL,
+     score INT DEFAULT 200 CHECK (score <= 200), -- Score with a constraint
     status INT NOT NULL, -- FK referencing Enums for status
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
