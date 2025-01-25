@@ -35,9 +35,10 @@ function UserLogin() {
         "https://vision-n5ju.onrender.com/api/users/login",
         formData
       );
-
+      
       const { token, user } = response.data;
       const { role, id, name } = user;
+console.log(response.data);
 
       setSuccess("Login Successful!");
       localStorage.setItem("token", token);
@@ -49,6 +50,7 @@ function UserLogin() {
           role,
           id,
           name,
+          email
         })
       );
 
