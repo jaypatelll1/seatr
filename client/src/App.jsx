@@ -1,14 +1,11 @@
-import { useState } from "react";
-import UserLogin from "./pages/UserLogin";
-import UserSignUp from "./pages/UserSignUp";
-
+import AppRoutes from "../AppRoutes";
 function App() {
 
   return (
     <>
       <div className="bg-black h-screen ">
-        {/* <UserLogin /> */}
-        <UserSignUp />
+      
+        <AppRoutes />
       </div>
     </>
   );
