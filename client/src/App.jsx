@@ -6,7 +6,9 @@ function App() {
 
   return (
     <>
-      <UserLogin />
+      <div className="bg-black h-screen ">
+        <UserLogin />
+      </div>
     </>
   );
 }
