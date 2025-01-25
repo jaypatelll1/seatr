@@ -4,7 +4,7 @@ import tablelayout from "../assets/layout.png";
 
 const TableDetails = () => {
   return (
-    <div className="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mr-10">
       {/* Title Section */}
       <h1 className="text-2xl font-bold mb-2">Milagro</h1>
 

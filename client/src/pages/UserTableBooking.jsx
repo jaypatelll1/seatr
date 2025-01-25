@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import TableList from "../components/TableList";
 import TableDetails from "../components/TableDetails";
 import Navbar from "../components/Navbar";
@@ -71,7 +71,7 @@ const TableBooking = () => {
       ],
     },
     {
-      id:18,
+      id: 18,
       name: "Joinable Table (Table 7 + Table 8)",
       seating: 8,
       image: "https://via.placeholder.com/100",
@@ -83,7 +83,7 @@ const TableBooking = () => {
       ],
     },
     {
-      id:18,
+      id: 19,
       name: "Joinable Table (Table 8 + Table 9)",
       seating: 8,
       image: "https://via.placeholder.com/100",
@@ -94,34 +94,47 @@ const TableBooking = () => {
         { id: 9, name: "Table 9", seating: 4 },
       ],
     },
-    
   ];
 
-  // Filter tables based on userCount
-  const filteredTables = tables.filter(
-    (table) => table.seating >= userCount || (table.joinable && table.seating >= userCount)
-  );
+  // Memoized filtering of tables
+  const filteredTables = useMemo(() => {
+    return tables.filter((table) => {
+      // If table is not joinable, check if it can accommodate user count
+      if (!table.joinable) {
+        return table.seating >= userCount;
+      }
+      
+      // For joinable tables, check if total seating meets user count
+      return table.seating >= userCount;
+    });
+  }, [tables, userCount]);
 
   return (
     <div>
       <Navbar />
-      <div className="flex flex-col items-center bg-gray-100">
+      <div className="flex flex-col items-center bg-gray-100 min-h-screen">
         {/* User Count Input */}
-        <div className="flex items-center my-4">
-          <label className="mr-2 text-lg font-semibold">Number of Users:</label>
+        <div className="flex items-center my-6">
+          <label className="mr-4 text-lg font-semibold">Number of Users:</label>
           <input
             type="number"
+            min="0"
             value={userCount}
-            onChange={(e) => setUserCount(parseInt(e.target.value, 10) || 0)}
-            className="p-2 border border-gray-300 rounded"
+            onChange={(e) => setUserCount(Math.max(0, parseInt(e.target.value, 10) || 0))}
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter user count"
           />
         </div>
 
         {/* Table List and Details */}
-        <div className="flex w-full h-screen">
-          <TableList tables={filteredTables} onTableSelect={setSelectedTable} />
-          <div className="w-1/2">
+        <div className="flex w-full max-w-6xl">
+          <div className="w-1/2 pr-4">
+            <TableList 
+              tables={filteredTables} 
+              onTableSelect={setSelectedTable} 
+            />
+          </div>
+          <div className="w-1/2 pl-4">
             <TableDetails table={selectedTable} />
           </div>
         </div>
