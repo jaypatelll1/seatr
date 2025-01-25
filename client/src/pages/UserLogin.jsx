@@ -2,69 +2,86 @@ import React from "react";
 
 function UserLogin() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-        <form className="space-y-6" action="#">
-          <h5 className="text-2xl font-medium text-gray-900 dark:text-white">
-            Login in
-          </h5>
-          <div>
-            <label
-              htmlFor="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+    <div className="flex items-center justify-center min-h-screen bg-cover bg-center lg:bg-[url('/src/assets/bgimage2.svg')]">
+      <div className="flex flex-wrap w-10/12 lg:w-6/12 max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
+        {/* Left Section: Login Form */}
+        <div className="w-full lg:w-6/12 p-8 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold text-orange-500 mb-6">
+            Welcome to SeatR
+          </h2>
+          <form className="space-y-6" action="#">
+            <div>
+              <label
+                htmlFor="email"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm"
+                placeholder="Enter Email"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block mb-2 text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 text-sm"
+                placeholder="Enter A Strong Password"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white font-medium rounded-lg text-sm px-5 py-3 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
             >
-              Your Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="name@company.com"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >
-              Your Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              required
-            />
-          </div>
-          <div className="flex items-start">
-            <div className="flex items-start"></div>
-            <a
-              href="#"
-              className="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Forget Password?
+              Login
+            </button>
+          </form>
+          <p className="mt-4 text-sm text-gray-500 text-center">
+            Don't have an account?{" "}
+            <a href="#" className="text-orange-500 hover:underline font-medium">
+              Register
             </a>
-          </div>
-          <button
-            type="submit"
-            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login to your account
-          </button>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
-            <a
-              href="#"
-              className="text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Create account
-            </a>
-          </div>
-        </form>
+          </p>
+        </div>
+
+        {/* Right Section: Information */}
+        <div className="hidden lg:flex w-full lg:w-6/12  p-8 flex-col justify-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            Create Account
+          </h2>
+          <p className="text-gray-800 mb-6 font-medium text-md">What does Seatr provide?</p>
+          <ul className="space-y-4 text-gray-600">
+            <li className="flex items-start">
+              <span className="mr-2 text-orange-500 font-bold">•</span>
+              Browse and search for nearby restaurants.
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-orange-500 font-bold">•</span>
+              View real-time table availability.
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-orange-500 font-bold">•</span>
+              Book tables online.
+            </li>
+            <li className="flex items-start">
+              <span className="mr-2 text-orange-500 font-bold">•</span>
+              Rate and write reviews for restaurants.
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
