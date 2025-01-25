@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-const WriteReview = () => {
+const WriteReview = ({ restaurantId, authToken }) => {
+  const userId = useSelector((state) => state.user.id);
+
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [review, setReview] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleStarClick = (index) => {
     setRating(index);
@@ -15,6 +21,45 @@ const WriteReview = () => {
 
   const handleStarLeave = () => {
     setHover(0);
+  };
+
+  const handleSubmit = async () => {
+    // Validate inputs
+    if (rating === 0) {
+      setError("Please select a rating");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/reviews/create-review",
+        {
+          user_id: userId, // Get userId from Redux
+          restaurant_id: restaurantId,
+          rating: rating,
+          comment: review,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Handle successful submission
+      alert("Review submitted successfully!");
+      setRating(0);
+      setReview("");
+    } catch (err) {
+      // Handle error
+      setError(err.response?.data?.message || "Failed to submit review");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -43,6 +88,13 @@ const WriteReview = () => {
         ))}
       </div>
 
+      {/* Error Message */}
+      {error && (
+        <div className="text-red-500 mb-4 text-sm">
+          {error}
+        </div>
+      )}
+
       {/* Review Text Area */}
       <textarea
         value={review}
@@ -53,10 +105,14 @@ const WriteReview = () => {
 
       {/* Submit Button */}
       <button
-        className="mt-4 w-full bg-orange-500 text-white font-medium rounded-lg px-4 py-2 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
-        onClick={() => alert(`Rating: ${rating}\nReview: ${review}`)}
+        className={`mt-4 w-full text-white font-medium rounded-lg px-4 py-2 
+          ${isSubmitting 
+            ? "bg-gray-400 cursor-not-allowed" 
+            : "bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"}`}
+        onClick={handleSubmit}
+        disabled={isSubmitting}
       >
-        Submit Review
+        {isSubmitting ? "Submitting..." : "Submit Review"}
       </button>
     </div>
   );
