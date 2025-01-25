@@ -2,7 +2,7 @@ import React from "react";
 
 function RestaurantProfile() {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md w-[90%] md:w-[60%] mx-8 my-8">
+    <div className="p-4 bg-white rounded-lg shadow-md w-[90%] md:w-[65vw] mx-auto mt-5">
       <h1 className="text-2xl font-semibold mb-2">Restaurant Profile</h1>
       <p className="text-gray-600 mb-6">
         Lorem ipsum dolor sit amet. At eveniet eveniet aut mollitia fuga aut

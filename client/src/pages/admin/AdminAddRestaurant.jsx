@@ -3,6 +3,7 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import RestaurantProfile from "../../components/admin/RestaurantProfile";
 import AdminNavbar from "../../components/admin/AdminNavbar";
 import RestaurantLocation from "../../components/admin/RestaurantLocation";
+import RestaurantLayout from "../../components/admin/RestaurantLayout";
 
 function AdminAddRestaurant() {
   return (
@@ -10,8 +11,7 @@ function AdminAddRestaurant() {
       <AdminNavbar />
       <div className="flex ">
         <AdminSidebar />
-        {/* <RestaurantProfile /> */}
-        <RestaurantLocation />
+        
       </div>
     </div>
   );
