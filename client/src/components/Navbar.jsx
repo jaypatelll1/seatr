@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import logo from "../assets/logo.svg";
 function Navbar({ userName,email }) {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const userDropdownRef = useRef(null);
@@ -30,7 +30,7 @@ function Navbar({ userName,email }) {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src={logo}
               className="h-8"
               alt="Flowbite Logo"
             />
