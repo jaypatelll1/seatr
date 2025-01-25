@@ -1,59 +1,75 @@
-const { query } = require('../config/db'); // Adjust this according to your DB helper
+const {query} = require('../config/db');
 
-const bookingModel = {
-  async getBookings(userId, filters) {
-    const { status, restaurant_id } = filters;
-    const conditions = ['user_id = $1'];
-    const values = [userId];
-
-    if (status) {
-      conditions.push('status = $2');
-      values.push(status);
-    }
-    if (restaurant_id) {
-      conditions.push('restaurant_id = $3');
-      values.push(restaurant_id);
-    }
-
-    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
-    const result = await query(`SELECT * FROM Bookings ${whereClause}`, values);
-    return result.rows;
-  },
-
-  async createBooking(userId, bookingData) {
-    const { restaurant_id, table_ids, guest_count, start_time, end_time, booking_type } = bookingData;
-    const result = await query(
-      `INSERT INTO Bookings 
-      (user_id, restaurant_id, table_ids, guest_count, start_time, end_time, booking_type, status) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, 11) 
-      RETURNING *`,
-      [userId, restaurant_id, table_ids, guest_count, start_time, end_time, booking_type]
-    );
-    return result.rows[0];
-  },
-
-  async getBookingById(bookingId, userId) {
-    const result = await query(`SELECT * FROM Bookings WHERE id = $1 AND user_id = $2`, [bookingId, userId]);
-    return result.rows[0];
-  },
-
-  async cancelBooking(bookingId, userId) {
-    const result = await query(
-      `UPDATE Bookings SET status = 12 WHERE id = $1 AND user_id = $2 RETURNING *`,
-      [bookingId, userId]
-    );
-    return result.rows[0];
-  },
-
-  async completeBooking(bookingId) {
-    const result = await query(`UPDATE Bookings SET status = 13 WHERE id = $1 RETURNING *`, [bookingId]);
-    return result.rows[0];
-  },
-
-  async releaseBooking(bookingId) {
-    const result = await query(`UPDATE Bookings SET status = 14 WHERE id = $1 RETURNING *`, [bookingId]);
-    return result.rows[0];
-  },
+// Function to get all tables for a specific restaurant
+const getTablesByRestaurant = async (restaurantId) => {
+  const queryText = `
+    SELECT * FROM Tables
+    WHERE restaurant_id = $1
+    ORDER BY unique_table_no ASC;
+  `;
+  const result = await query(queryText, [restaurantId]);
+  return result.rows;
 };
 
-module.exports = bookingModel;
+// Function to add a new table
+const addTable = async (restaurantId, uniqueTableNo, seats, joinable, joinableTo, statusOccupied) => {
+    const tableIdentifier = `${restaurantId}-${uniqueTableNo}`;
+  
+    const queryText = `
+      INSERT INTO Tables (restaurant_id, unique_table_no, capacity, is_available, joinable, joinable_to, table_identifier, status_occupied)
+      VALUES ($1, $2, $3, TRUE, $4, $5::JSONB, $6, $7)
+      RETURNING *;
+    `;
+    const result = await query(queryText, [
+      restaurantId,
+      uniqueTableNo,
+      seats,
+      joinable,
+      JSON.stringify(joinableTo) || '{}', // Ensure valid JSON string
+      tableIdentifier,
+      statusOccupied || false,
+    ]);
+    return result.rows[0];
+  };
+  
+  const updateTable = async (id, updatedFields) => {
+    const { seats, joinable, joinableTo, statusOccupied } = updatedFields;
+  
+    const queryText = `
+      UPDATE Tables
+      SET
+        capacity = COALESCE($1, capacity),
+        joinable = COALESCE($2, joinable),
+        joinable_to = COALESCE($3::JSONB, joinable_to), -- Explicit cast to JSONB
+        status_occupied = COALESCE($4, status_occupied),
+        updated_at = CURRENT_TIMESTAMP
+      WHERE table_id = $5
+      RETURNING *;
+    `;
+  
+    const result = await query(queryText, [
+      seats || null,
+      joinable || null,
+      joinableTo ? JSON.stringify(joinableTo) : '[]', // Ensure valid JSON array
+      statusOccupied || null,
+      id,
+    ]);
+  
+    return result.rows[0];
+  };
+  
+  
+
+// Function to delete a table
+const deleteTable = async (tableId) => {
+  const queryText = `DELETE FROM Tables WHERE table_id = $1 RETURNING *;`;
+  const result = await query(queryText, [tableId]);
+  return result.rows[0];
+};
+
+module.exports = {
+  getTablesByRestaurant,
+  addTable,
+  updateTable,
+  deleteTable,
+};
