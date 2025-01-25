@@ -6,16 +6,21 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 
+
 // initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const userRoutes = require("./routes/user.routes")
-const passwordResetRoutes = require("./routes/passwordreset.routes");
 
+
+// import routes
+const userRoutes= require("./routes/user.routes")
+const restaurantRoutes = require("./routes/restaurantRoutes")
+const passwordResetRoutes = require("./routes/passwordreset.routes");
 
 // middleware
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(cookieParser());
 
@@ -35,6 +40,8 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
+// Restaurants Routes
+app.use('/api/restaurants', restaurantRoutes);
 
 
 app.listen(PORT, () => {
