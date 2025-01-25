@@ -52,6 +52,20 @@ const bookingTableModel = require('../models/bookingTableModel');
     }
   },
 
+
+  // Get all bookings in a restaurant
+  exports.getBookingsByRestaurant= async(req, res)=> {
+    try {
+      const { restaurantId } = req.params;  // Restaurant ID from URL params
+
+      const bookings = await bookingModel.getBookingsByRestaurant(restaurantId);
+      res.status(200).json({ bookings });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Failed to get bookings' });
+    }
+  },
+  
   // Cancel a booking (Set status to canceled)
   exports.cancelBooking= async(req, res)=> {
     try {

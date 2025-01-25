@@ -25,6 +25,18 @@ const { query } = require('../config/db');
     return result.rows[0];
   },
 
+  // Get all bookings in a restaurant
+    exports.getBookingsByRestaurant= async(restaurantId)=> {
+      const result = await query(
+        `SELECT b.*, u.name AS user_name
+        FROM Bookings b
+        JOIN Users u ON b.user_id = u.user_id
+        WHERE b.restaurant_id = $1`,
+        [restaurantId]
+      );
+      return result.rows;
+    },
+
   // Cancel a booking (Set status to 'canceled')
    exports.cancelBooking = async(bookingId, userId)=> {
     const result = await query(
@@ -60,6 +72,4 @@ const { query } = require('../config/db');
     );
     return result.rows[0];
   }
-
-
 

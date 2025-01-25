@@ -3,7 +3,7 @@ import React from "react";
 const TableList = ({ tables, onTableSelect }) => {
   return (
     <div className="w-full max-w-xl mx-auto p-6 bg-white rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Available Time Slots</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Available Tables</h2>
       <div className="space-y-4 overflow-y-auto max-h-[70vh] scrollbar-hide">
         {tables.map((table) => (
           <div

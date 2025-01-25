@@ -10,6 +10,9 @@ router.post('/create',jwtAuthMiddleware, bookingController.createBooking);
 // Route to get booking details with associated tables
 router.get('/:userId/:bookingId', jwtAuthMiddleware,bookingController.getBookingById);
 
+// Route to get all bookings in a restaurant
+router.get('/:restaurantId', bookingController.getBookingsByRestaurant);
+
 // Route to cancel a booking
 // router.put('/bookings/:bookingId/cancel',jwtAuthMiddleware, bookingController.cancelBooking);
 
