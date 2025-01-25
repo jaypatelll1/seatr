@@ -1,27 +1,33 @@
 import React from "react";
-import tablelayout from "../assets/tablelayout.png";
+import { MapPin, Clock } from "lucide-react";
+import tablelayout from "../assets/layout.png";
 
-const TableDetails = ({ selectedTable }) => {
+const TableDetails = () => {
   return (
-    <div className="w-auto p-8">
-      {selectedTable ? (
-        <>
-          <h2 className="text-2xl font-semibold">{selectedTable.name}</h2>
-          <p className="text-gray-600 mb-4">
-            <span role="img" aria-label="location">📍</span> {selectedTable.location || "Kazi Deiry, Taiger Pass, Chittagong"}
-          </p>
-          <p className="text-gray-600 mb-8">
-            <span role="img" aria-label="clock">⏰</span> {selectedTable.time}
-          </p>
-          <img
-            src={tablelayout}
-            alt="Table Layout"
-            className="w-auto rounded-lg shadow-lg"
-          />
-        </>
-      ) : (
-        <p className="text-gray-500">Please select a table to view details.</p>
-      )}
+    <div className="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+      {/* Title Section */}
+      <h1 className="text-2xl font-bold mb-2">Milagro</h1>
+
+      {/* Location Section */}
+      <div className="flex items-center text-gray-600 mb-4">
+        <MapPin className="w-5 h-5 text-orange-500 mr-2" />
+        <p>kazi Deiry, Taiger Pass, Chittagong</p>
+      </div>
+
+      {/* Time Section */}
+      <div className="flex items-center text-gray-600 mb-6">
+        <Clock className="w-5 h-5 text-orange-500 mr-2" />
+        <p>10:00 AM - 12:00 PM</p>
+      </div>
+
+      {/* Image Section */}
+      <div className="w-full">
+        <img
+          src={tablelayout}
+          alt="Table Layout"
+          className="w-full rounded-lg shadow-lg"
+        />
+      </div>
     </div>
   );
 };
