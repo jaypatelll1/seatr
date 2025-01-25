@@ -1,34 +1,16 @@
 import React, { useState } from "react";
 import { GoogleMap, LoadScript, MarkerF, InfoWindow } from "@react-google-maps/api";
 
-const GoogleMapComponent = () => {
+const GoogleMapComponent = ({ restaurants }) => {
   const containerStyle = {
-    width: "45%",
+    width: "100%",
     height: "90vh",
   };
 
-  const center = { lat: 40.7128, lng: -74.006 }; // Example: New York
-
-  const markers = [
-    { 
-      lat: 40.73061, 
-      lng: -73.935242,
-      name: "Restaurant 1",
-      description: "This is a cozy spot with amazing pizza."
-    }, 
-    { 
-      lat: 40.712776, 
-      lng: -74.005974,
-      name: "Restaurant 2",
-      description: "A fine dining experience with a rooftop view."
-    }, 
-    { 
-      lat: 40.758896, 
-      lng: -73.98513,
-      name: "Restaurant 3",
-      description: "Perfect for coffee lovers and quick bites."
-    },
-  ];
+  // Default center for the map (set to the first restaurant's location or a default value)
+  const center = restaurants.length
+    ? { lat: restaurants[0].latitude, lng: restaurants[0].longitude }
+    : { lat: 0, lng: 0 }; // Fallback center in case no data is passed
 
   const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -42,29 +24,30 @@ const GoogleMapComponent = () => {
 
   return (
     <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={12}
-      >
-        {markers.map((marker, index) => (
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
+        {/* Render markers based on restaurants passed as props */}
+        {restaurants.map((restaurant, index) => (
           <MarkerF
             key={index}
-            position={{ lat: marker.lat, lng: marker.lng }}
-            title={marker.name}
-            onClick={() => handleMarkerClick(marker)} // Controlled behavior
+            position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
+            title={restaurant.name}
+            onClick={() => handleMarkerClick(restaurant)} // Pass restaurant details to state
           />
         ))}
 
+        {/* InfoWindow for selected marker */}
         {selectedMarker && (
           <InfoWindow
-            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-            onCloseClick={handleCloseClick} // Close the InfoWindow
-            options={{ disableCloseButton: false }} 
+            position={{
+              lat: selectedMarker.latitude,
+              lng: selectedMarker.longitude,
+            }}
+            onCloseClick={handleCloseClick}
           >
             <div>
               <h4 style={{ margin: 0 }}>{selectedMarker.name}</h4>
-              <p style={{ margin: 0 }}>{selectedMarker.description}</p>
+              <p style={{ margin: 0 }}>{selectedMarker.address}</p>
+              <p style={{ margin: 0 }}>{selectedMarker.cuisine}</p>
             </div>
           </InfoWindow>
         )}
