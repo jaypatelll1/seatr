@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { useDispatch ,useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { CloudCog } from "lucide-react";
 
 function UserViewRestaurant() {
-  const [restaurants, setRestaurants] = useState([]);
+  // const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [cuisineFilter, setCuisineFilter] = useState([]);
   const [ratingFilter, setRatingFilter] = useState([]);
@@ -14,19 +17,43 @@ function UserViewRestaurant() {
   const [userLocation, setUserLocation] = useState(null);
   const [distanceFilter, setDistanceFilter] = useState(10); // Distance in kilometers
 
+const restaurants = useSelector((state)=>state.restaurant.restaurants)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants");
-        setRestaurants(response.data);
-        setFilteredRestaurants(response.data); // Initialize filtered list
-      } catch (error) {
-        console.error("Error fetching data: " + error);
-      }
-    };
+// console.log(restaurant)
+    // setRestaurants(restaurant);
+  //   const fetchData = async () => {
+  //     try {
+  //       const params = {};
+        
+  //       // Add parameters only if filters exist
+  //       if (location?.length) params.location = location.join(",");
+  //       if (cuisine?.length) params.cuisine = cuisine.join(",");
+  //       if (ratingFilter) params.rating = ratingFilter;
+  
+  //       console.log("Fetching data with params:", params);
+  
+  //       const response = await axios.get("/api/restaurants", {
+  //         params, // Pass the params object directly
+  //         withCredentials: true,
+  //       });
+  // console.log(response)
+  //       setRestaurants(response.data);
+  //       setFilteredRestaurants(response.data); // Initialize filtered list
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+  
+  //   if (location?.length || cuisine?.length || ratingFilter) {
+  //     fetchData(); // Fetch data when filters are applied
+  //   } else {
+      console.log("Using Redux state for restaurants.");
+       // Use data from Redux state
+    
 
-    fetchData();
-
+  
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -73,7 +100,7 @@ function UserViewRestaurant() {
     }
 
     setFilteredRestaurants(filtered);
-  }, [cuisineFilter, ratingFilter, distanceFilter, restaurants, userLocation]);
+  }, []); // Add dependencies
 
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
     const toRadians = (degrees) => (degrees * Math.PI) / 180;
@@ -110,6 +137,20 @@ function UserViewRestaurant() {
       setFilter([...currentFilter, value]);
     }
   };
+
+  const handlecheck = async () => {
+
+    try {
+      const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants/3" , {withCredentials:true})
+      console.log("response",response)
+      navigate("/tablebooking")
+
+    } catch (error) {
+      console.error("error is "+error)
+    }
+    
+  }
+  
 
   return (
     <div className="flex flex-col h-screen">
@@ -226,7 +267,7 @@ function UserViewRestaurant() {
                 <p className="text-gray-600">{restaurant.address}</p>
                 <p className="text-gray-500">{restaurant.cuisine}</p>
               </div>
-              <button className="ml-auto px-4 py-2 bg-orange-400 text-white rounded-md">
+              <button className="ml-auto px-4 py-2 bg-orange-400 text-white rounded-md" onClick={handlecheck}>
                 Check
               </button>
             </div>

@@ -19,6 +19,7 @@ const restaurantRoutes = require("./routes/restaurantRoutes")
 const passwordResetRoutes = require("./routes/passwordreset.routes");
 const tablesRoutes = require('./routes/tableRoutes')
 const bookingRoutes = require('./routes/booking.routes')
+const tokenRoutes = require('./routes/tokenRoutes')
 
 // middleware
 app.use(express.json());
@@ -39,10 +40,12 @@ app.use(cors(corsOptions))
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use("/api/token", tokenRoutes)
 app.use('/api/passwordreset', passwordResetRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api', tablesRoutes);
 app.use('/api/bookings',bookingRoutes)
+
 
 
 app.get('/', (req, res) => {
