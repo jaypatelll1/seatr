@@ -4,28 +4,37 @@ function TimeSlot() {
   const startTime = 7; // Starting hour (7 AM)
   const endTime = 22; // Ending hour (10 PM)
 
-  // Generate time slots with 1-hour intervals
+  // Generate time slots with fixed 1.5-hour intervals
   const generateTimeSlots = () => {
     const slots = [];
-    for (let hour = startTime; hour <= endTime; hour++) {
-      const timeString = `${hour < 10 ? "0" : ""}${hour}:00`;
-      slots.push(timeString);
+    let currentTime = startTime;
+    while (currentTime + 1.5 <= endTime) {
+      const startHour = Math.floor(currentTime);
+      const startMinutes = (currentTime % 1) * 60;
+      const endHour = Math.floor(currentTime + 1.5);
+      const endMinutes = ((currentTime + 1.5) % 1) * 60;
+
+      const startString = `${startHour < 10 ? "0" : ""}${startHour}:${
+        startMinutes === 0 ? "00" : startMinutes
+      }`;
+      const endString = `${endHour < 10 ? "0" : ""}${endHour}:${
+        endMinutes === 0 ? "00" : endMinutes
+      }`;
+
+      slots.push(`${startString} - ${endString}`);
+      currentTime += 2; // Increment by 2 hours for the next time slot
     }
     return slots;
   };
 
-  const [selectedSlots, setSelectedSlots] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState(null);
   const [totalSeating, setTotalSeating] = useState(1);
 
   const timeSlots = generateTimeSlots();
 
   // Toggle time slot selection
-  const toggleSlot = (slot) => {
-    if (selectedSlots.includes(slot)) {
-      setSelectedSlots(selectedSlots.filter((s) => s !== slot));
-    } else {
-      setSelectedSlots([...selectedSlots, slot]);
-    }
+  const selectSlot = (slot) => {
+    setSelectedSlot(selectedSlot === slot ? null : slot);
   };
 
   return (
@@ -35,9 +44,9 @@ function TimeSlot() {
         {timeSlots.map((slot) => (
           <button
             key={slot}
-            onClick={() => toggleSlot(slot)}
+            onClick={() => selectSlot(slot)}
             className={`p-2 text-sm font-medium rounded-md border focus:outline-none ${
-              selectedSlots.includes(slot)
+              selectedSlot === slot
                 ? "bg-orange-500 text-white"
                 : "bg-gray-200 text-gray-700"
             }`}

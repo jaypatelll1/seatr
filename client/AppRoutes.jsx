@@ -5,6 +5,7 @@ import UserSignUp from "./src/pages/UserSignUp";
 import UserLanding from "./src/pages/UserLanding";
 import UserViewRestaurant from "./src/pages/UserViewRestaurant";
 import UserTableBooking from "./src/pages/UserTableBooking";
+import Slots from "./src/pages/Slots";
 const AppRoutes = () => {
   return (
     <Router>
@@ -15,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/home" element={<UserLanding />} />
         <Route path="/viewrestaurant" element={<UserViewRestaurant />} />
         <Route path="/tablebooking" element={<UserTableBooking />} />
+        <Route path="/slot" element={<Slots />} />
       </Routes>
     </Router>
   );
