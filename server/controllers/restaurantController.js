@@ -20,7 +20,8 @@ exports.getRestaurants = async (req, res) => {
           longitude: restaurant.longitude || null,
           opening_time: restaurant.opening_time || "08:00:00",
           closing_time: restaurant.closing_time || "22:00:00",
-          cuisine: restaurant.cuisine || "Not Specified"
+          cuisine: restaurant.cuisine || "Not Specified",
+          images :restaurant.images || "NA",
         }));
   
         res.status(200).json(response);

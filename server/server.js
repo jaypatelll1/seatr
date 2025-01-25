@@ -24,12 +24,24 @@ app.use(cookieParser());
 
 app.use(cookieParser());
 
+// Use CORS middleware
 app.use(cors());
+
+// Optional: Configure CORS options
+const corsOptions = {
+  origin: 'http://localhost:5173/', // Frontend URL (use '*' for all origins)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+};
+app.use(cors(corsOptions))
 
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/passwordreset', passwordResetRoutes);
 // app.use('/api/')
+// Restaurants Routes
+app.use('/api/restaurants', restaurantRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Nothing to see here. Move along');
@@ -40,8 +52,6 @@ app.use((req, res, next) => {
   error.status = 404;
   next(error);
 });
-// Restaurants Routes
-app.use('/api/restaurants', restaurantRoutes);
 
 
 app.listen(PORT, () => {

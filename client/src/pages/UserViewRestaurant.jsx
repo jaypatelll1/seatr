@@ -1,56 +1,26 @@
-import React from "react";
+import React , {useEffect, useState}from "react";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import Navbar from "../components/Navbar";
+import axios from "axios"
 
 function UserViewRestaurant() {
-  const restaurants = [
-    {
-      id: 1,
-      name: "Ambrosia Hotel",
-      address: "Kazi Deiry, Taiger Pass, Chittagong",
-      cuisine: "Continental",
-      latitude: 22.3569,
-      longitude: 91.7832,
-      image: "https://via.placeholder.com/100?text=Ambrosia",
-    },
-    {
-      id: 2,
-      name: "Tava Restaurant",
-      address: "Zakir Hossain Rd, Chittagong",
-      cuisine: "Indian",
-      latitude: 22.3598,
-      longitude: 91.7847,
-      image: "https://via.placeholder.com/100?text=Tava",
-    },
-    {
-      id: 3,
-      name: "Haathkhola",
-      address: "6 Surson Road, Chittagong",
-      cuisine: "Bangladeshi",
-      latitude: 22.3630,
-      longitude: 91.7893,
-      image: "https://via.placeholder.com/100?text=Haathkhola",
-    },
-    {
-      id: 4,
-      name: "Chillox",
-      address: "Main Road, Chittagong",
-      cuisine: "Fast Food",
-      latitude: 22.3701,
-      longitude: 91.7925,
-      image: "https://via.placeholder.com/100?text=Chillox",
-    },
-    {
-      id: 5,
-      name: "Mezetto",
-      address: "Agrabad Commercial Area, Chittagong",
-      cuisine: "Mediterranean",
-      latitude: 22.3724,
-      longitude: 91.7956,
-      image: "https://via.placeholder.com/100?text=Mezetto",
-    },
-  ];
+  const [restaurants,setRestaurant]= useState([])
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await axios.get("/api/restaurants")
+        // console.log("response",response)
+        setRestaurant(response.data)
+      } catch (error) {
+        console.error("error"+error)
+      }
+    }
+    fetchdata()
+   
+   
+  }, [])
+  
   return (
     <div className="flex flex-col h-screen">
       {/* Navbar */}
