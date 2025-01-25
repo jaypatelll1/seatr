@@ -10,6 +10,7 @@ import AdminAddRestaurant from "./src/pages/admin/AdminAddRestaurant";
 import ResetPassword from "./src/pages/ResetPassword";
 import AdminDashboard from "./src/pages/admin/AdminDashboard";
 import RestaurantDashboard from "./src/pages/restaurant/RestaurantDashboard";
+import FinalBooking from "./src/pages/FinalBooking";
 const AppRoutes = () => {
   return (
     <Router>
@@ -27,6 +28,7 @@ const AppRoutes = () => {
         <Route path="/admindashboard" element={<AdminDashboard />} />
         {/* restaurant routes*/}
         <Route path="/restaurantdashboard" element={<RestaurantDashboard />} />
+        <Route path="/finalbooking" element={<FinalBooking />} />
 
       </Routes>
     </Router>

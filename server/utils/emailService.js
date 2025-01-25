@@ -15,7 +15,7 @@ const emailService = {
     });
 
     await transporter.sendMail({
-      from: `"Your App" <${process.env.EMAIL_USER}>`,
+      from: `"Seatr" <${process.env.EMAIL_USER}>`,
       to: email,
       subject: 'Password Reset Token',
       text: `Your password reset token is: ${token}. 
