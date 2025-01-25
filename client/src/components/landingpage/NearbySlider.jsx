@@ -60,8 +60,8 @@ export default function NearbySlider() {
   };
 
   return (
-    <div className="relative -mt-40 z-20 px-15 mb-15">
-      <h1 className="text-4xl font-bold md:text-5xl pb-10 pl-2">Nearby Restaurants</h1>
+    <div className="relative -mt-40 z-10 px-15 mb-15 ">
+      <h1 className="text-4xl font-bold md:text-5xl pb-10 pl-2 mt-28">Nearby Restaurants</h1>
       <Slider {...settings}>
         {dummyData.map((data) => (
           <div className="px-2"> {/* Add margin between each card */}

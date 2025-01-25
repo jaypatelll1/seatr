@@ -8,8 +8,8 @@ function App() {
   const [cuisine, setCuisine] = useState("");
 
   return (
-    <div className="relative min-h-screen">
-        <div
+    <div className="relative h-full">
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage:
@@ -27,12 +27,12 @@ function App() {
         <div className="flex-grow flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pb-0">
           {/* Logo and Title */}
           <div className="text-center mb-0">
-            <div className="flex items-center justify-center mb-4">
-              <div className=" h-24  md:h-40 p-3  rounded-lg">
-                <img src={logo} alt="Logo" />
+            <div className="flex  justify-center ">
+              <div className="h-28 md:h-44 p-3 rounded-lg">
+                <img src={logo} alt="Logo" className="h-full"/>
               </div>
             </div>
-            <p className="text-white text-xl md:text-2xl">
+            <p className="text-white text-2xl md:text-4xl font-medium">
               Browse and search for nearby restaurants.
             </p>
           </div>

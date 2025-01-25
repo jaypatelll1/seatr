@@ -20,11 +20,11 @@ export const NearbyCard = ({ data }) => {
             <p className="text-xs sm:text-sm text-gray-500">{data.place}</p>
           </div>
           {/* Rating Section */}
-          <div className="flex items-center space-x-1 bg-green-500 mr-2 -mt-4 rounded-lg p-1 sm:p-2">
-            <span className="text-white text-xs sm:text-sm">
+          <div className="flex items-center  bg-[#0E7F3D] mr-2 -mt-4 rounded-lg p-1">
+            <span className="text-white text-xs sm:text-xs">
               {data.rating || "N/A"}
             </span>
-            <span className="text-white text-xs sm:text-sm">★</span>
+            <span className="text-white text-xs sm:text-xs">★</span>
           </div>
         </div>
       </div>
