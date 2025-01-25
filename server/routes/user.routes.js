@@ -4,7 +4,7 @@ const {registerUser,loginUser}= require('../controllers/userController')
 
 const router = express.Router();
 
-router.post('/register',jwtAuthMiddleware, registerUser);
+router.post('/register', registerUser);
 
 router.post('/login', loginUser);
 
