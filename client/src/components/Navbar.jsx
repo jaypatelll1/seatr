@@ -22,7 +22,7 @@ function Navbar({ userName,email }) {
 
   return (
     <div>
-      <nav className="bg-white border-gray-200 ">
+      <nav className="bg-white border-gray-200 shadow-lg">
         <div className="w-screen-xl flex items-center justify-between  p-2">
           {/* Logo Section */}
           <a
