@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 function UserLogin() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ function UserLogin() {
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate(); // Initialize the navigate function
+  const dispatch = useDispatch(); // Initialize Redux dispatch
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -147,7 +150,7 @@ function UserLogin() {
           <p className="mt-4 text-sm text-gray-500 text-center">
             Don't have an account?{" "}
             <a
-              onClick={() => navigate("/signup")} // Navigate to the register page
+              onClick={() => navigate("/signup")}
               className="text-orange-500 hover:underline font-medium cursor-pointer"
             >
               Register

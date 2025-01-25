@@ -89,3 +89,11 @@ exports.updateRestaurant = async (id, updatedFields) => {
 exports.deleteRestaurant = async (id) => {
   await query('DELETE FROM Restaurants WHERE restaurant_id = $1', [id]);
 };
+
+exports.getAvailability = async (id) => {
+  try {
+    
+  } catch (error) {
+    throw new Error('Error fetching availability: ' + error.message);
+  }
+};

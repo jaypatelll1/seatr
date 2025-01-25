@@ -123,3 +123,14 @@ exports.deleteRestaurant = async (req, res) => {
   }
 };
  
+exports.getAvailability = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const availability = await restaurantModel.getAvailability(id);
+    if (!availability) {
+      return res.status(404).json({ message: 'Availability not found' });
+    }
+    res.status(200).json
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching availability', error: error.message });
+  }};

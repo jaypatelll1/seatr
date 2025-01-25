@@ -21,7 +21,7 @@ const RestaurantCard = () => {
       {restaurants.map((restaurant, index) => (
         <div
           key={index}
-          className="w-full md:w-10/12 h-[70%] rounded-2xl shadow-lg  mb-4 overflow-hidden mt-5 md:mt-12 p-5"
+          className="w-full md:w-10/12 h-[70%] rounded-2xl shadow-lg  mb-4 overflow-hidden mt-5 md:mt-12 p-5 bg-white"
         >
           <div className="relative">
             <button className="absolute top-4 right-4 bg-orange-500 text-white px-2 md:px-4 md:py-2 rounded-lg shadow-md hover:bg-orange-600">

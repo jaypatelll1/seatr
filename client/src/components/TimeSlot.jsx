@@ -38,7 +38,7 @@ function TimeSlot() {
   };
 
   return (
-    <div className="p-5 bg-white rounded-lg shadow-md w-[90%] md:w-5/12 mr-10 mt-5 md:mt-12 ml-3 md:ml-0">
+    <div className="flex flex-col items-center justify-center p-6 bg-white rounded-2xl shadow-lg max-w-lg mt-5 md:mt-12">
       <h2 className="text-lg font-semibold mb-4">Available Time Slots</h2>
       <div className="grid grid-cols-4 gap-3 mb-6">
         {timeSlots.map((slot) => (
