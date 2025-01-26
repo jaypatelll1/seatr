@@ -11,6 +11,7 @@ import ResetPassword from "./src/pages/ResetPassword";
 import AdminDashboard from "./src/pages/admin/AdminDashboard";
 import RestaurantDashboard from "./src/pages/restaurant/RestaurantDashboard";
 import FinalBooking from "./src/pages/FinalBooking";
+import UserRewardsCoupon from "./src/pages/UserReward";
 const AppRoutes = () => {
   return (
     <Router>
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/viewrestaurant" element={<UserViewRestaurant />} />
         <Route path="/tablebooking" element={<UserTableBooking />} />
         <Route path="/slot" element={<Slots />} />
+        <Route path="/rewards" element={<UserRewardsCoupon />} />
         {/* admin routes*/}
         <Route path="/profile" element={<AdminAddRestaurant />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
