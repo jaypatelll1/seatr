@@ -3,9 +3,9 @@ import { FaMapMarkerAlt, FaClock, FaCheckCircle } from "react-icons/fa";
 
 const restaurants = [
   {
-    name: "Tava Restaurant",
+    name: "Marine Drive",
     image: "/src/assets/tava.svg",
-    address: "kazi Deiry, Taiger Pass, Chittagong",
+    address: "Mumbai",
     menu: "Check Menu",
     description:
       "Villagio restaurant and bar has one mission: Villagio restaurant and bar has one mission. Featuring seasonal and to provide guests with a fine and fresh Featuring seasonal...",
@@ -24,7 +24,7 @@ const RestaurantCard = () => {
           className="w-full md:w-10/12 h-[70%] rounded-2xl shadow-lg  mb-4 overflow-hidden mt-5 md:mt-12 p-5 bg-white"
         >
           <div className="relative">
-            <button className="absolute top-4 right-4 bg-orange-500 text-white px-2 md:px-4 md:py-2 rounded-lg shadow-md hover:bg-orange-600">
+            <button className="absolute top-4 right-4 bg-orange-500 text-white px-2 md:px-4 md:py-3 rounded-lg shadow-md hover:bg-orange-600">
               {restaurant.menu}
             </button>
           </div>

@@ -100,7 +100,7 @@ function UserViewRestaurant() {
       //   withCredentials: true,
       // });
       // console.log("response", response);
-      navigate("/tablebooking");
+      navigate("/slot");
     } catch (error) {
       console.error("error is " + error);
     }

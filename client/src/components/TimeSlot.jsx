@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function TimeSlot() {
+
+  const navigate = useNavigate();
   const startTime = 7; // Starting hour (7 AM)
   const endTime = 22; // Ending hour (10 PM)
-
+  const handlenavigate = () => {
+    navigate("/tablebooking");
+  };
+ 
   // Generate time slots with fixed 1.5-hour intervals
   const generateTimeSlots = () => {
     const slots = [];
@@ -45,7 +50,7 @@ function TimeSlot() {
           <button
             key={slot}
             onClick={() => selectSlot(slot)}
-            className={`p-2 text-sm font-medium rounded-md border focus:outline-none ${
+            className={`px-2 py-1 text-sm font-medium rounded-md border focus:outline-none ${
               selectedSlot === slot
                 ? "bg-orange-500 text-white"
                 : "bg-gray-200 text-gray-700"
@@ -73,7 +78,7 @@ function TimeSlot() {
         </button>
       </div>
 
-      <button className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600">
+      <button className="w-full bg-orange-500 text-white py-2 rounded-lg font-semibold hover:bg-orange-600" onClick={handlenavigate}>
         Select Slot
       </button>
     </div>
