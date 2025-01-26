@@ -8,15 +8,15 @@ const {jwtAuthMiddleware}= require('../middleware/jwtAuthMiddleware')
 router.get('/',restaurantController.getRestaurants);
 
 // GET /restaurants/:id
-router.get('/:id',jwtAuthMiddleware, restaurantController.getRestaurantById);
+router.get('/:id', restaurantController.getRestaurantById);
 
 // POST /restaurants (Admin Only)
-router.post('/', jwtAuthMiddleware,authorizeRoles, restaurantController.addRestaurant);
+router.post('/',  restaurantController.addRestaurant);
 
 // PUT /restaurants/:id (Admin Only)
-router.put('/:id', jwtAuthMiddleware,authorizeRoles, restaurantController.updateRestaurant);
+router.put('/:id',  restaurantController.updateRestaurant);
 
 // DELETE /restaurants/:id (Admin Only)
-router.delete('/:id',jwtAuthMiddleware, authorizeRoles, restaurantController.deleteRestaurant);
+router.delete('/:id', restaurantController.deleteRestaurant);
 
 module.exports = router;
