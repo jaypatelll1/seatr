@@ -43,7 +43,7 @@ function BrowseRestaurants({ location, setLocation, cuisine, setCuisine }) {
     setError(null);
 
     try {
-      const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants", {
+      const response = await axios.get("/api/restaurants", {
         params: {
           location: location.join(","),
           cuisine: cuisine.join(","),

@@ -1,92 +1,52 @@
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function AdminDashboard() {
   // Dummy data for restaurants
-  const restaurants = [
-    {
-      id: 1,
-      name: "Slice of Food",
-      image: "https://via.placeholder.com/50",
-      time: "10:00 AM - 10:00 PM",
-      location: "Mumbai",
-      rating: 4.5,
-    },
-    {
-      id: 2,
-      name: "Grill Delight",
-      image: "https://via.placeholder.com/50",
-      time: "11:00 AM - 11:00 PM",
-      location: "Mumbai",
-      rating: 4.7,
-    },
-    {
-      id: 3,
-      name: "Kebab Corner",
-      image: "https://via.placeholder.com/50",
-      time: "9:00 AM - 9:00 PM",
-      location: "Mumbai",
-      rating: 4.2,
-    },
-    {
-      id: 4,
-      name: "Spicy Bites",
-      image: "https://via.placeholder.com/50",
-      time: "12:00 PM - 12:00 AM",
-      location: "Mumbai",
-      rating: 4.8,
-    },
-    {
-      id: 5,
-      name: "Sushi World",
-      image: "https://via.placeholder.com/50",
-      time: "10:00 AM - 11:00 PM",
-      location: "Mumbai",
-      rating: 4.6,
-    },
-    {
-      id: 6,
-      name: "Pasta Paradise",
-      image: "https://via.placeholder.com/50",
-      time: "8:00 AM - 8:00 PM",
-      location: "Mumbai",
-      rating: 4.3,
-    },
-    {
-      id: 7,
-      name: "Taco Fiesta",
-      image: "https://via.placeholder.com/50",
-      time: "1:00 PM - 12:00 AM",
-      location: "Mumbai",
-      rating: 4.1,
-    },
-    {
-      id: 8,
-      name: "Burger Bliss",
-      image: "https://via.placeholder.com/50",
-      time: "10:00 AM - 10:00 PM",
-      location: "Mumbai",
-      rating: 4.4,
-    },
-    {
-      id: 9,
-      name: "Waffle Wonders",
-      image: "https://via.placeholder.com/50",
-      time: "9:00 AM - 9:00 PM",
-      location: "Mumbai",
-      rating: 4.9,
-    },
-    {
-      id: 10,
-      name: "Pizza Perfection",
-      image: "https://via.placeholder.com/50",
-      time: "11:00 AM - 11:00 PM",
-      location: "Mumbai",
-      rating: 4.6,
-    },
-  ];
 
+  const [restaurant, setRestaurant] = useState([])
+  
   const navigate = useNavigate();
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/restaurants")
+        console.log("response", response)
+        setRestaurant(response.data)
+      } catch (error) {
+        console.error("error in " + error)
+      }
+
+
+    }
+    fetchData()
+
+  }, [])
+
+  // Helper function to format time
+  const formatTime = (time) => {
+    console.log(time)
+    if (!time) return "N/A"; // Handle null or undefined time
+    const [hours, minutes] = time.split(":");
+    const date = new Date();
+    date.setHours(parseInt(hours, 10));
+    date.setMinutes(parseInt(minutes, 10));
+    return date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
+  const generateRandomRating = () => {
+    // Generate a random number between 1 and 5 with one decimal place
+    return (Math.random() * (5 - 1) + 1).toFixed(1);
+  };
+  
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -113,18 +73,21 @@ export default function AdminDashboard() {
             </tr>
           </thead>
           <tbody>
-            {restaurants.map((restaurant) => (
+            {restaurant.map((restaurant) => (
               <tr
                 key={restaurant.id}
                 className="border-b hover:bg-gray-50 transition"
               >
                 <td className="p-4 flex items-center gap-4">
-                  
+
                   <span>{restaurant.name}</span>
                 </td>
-                <td className="p-4">{restaurant.time}</td>
+                <td className="p-4">{`${formatTime(restaurant.opening_time
+                )} - ${formatTime(
+                  restaurant.closing_time
+                )}`}</td>
                 <td className="p-4">{restaurant.location}</td>
-                <td className="p-4">{restaurant.rating} ⭐</td>
+                <td className="p-4">{generateRandomRating()} ⭐</td>
               </tr>
             ))}
           </tbody>
