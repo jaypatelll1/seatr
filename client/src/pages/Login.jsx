@@ -74,7 +74,7 @@ console.log(response.data);
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-cover bg-center lg:bg-[url('/src/assets/bgimage2.svg')]">
+    <div className="relative flex items-center justify-center h-screen bg-cover bg-center overflow-hidden lg:bg-[url('/src/assets/bgimage2.svg')]">
       {success && (
         <div className="fixed top-0 left-0 right-0 bg-green-600 text-white text-center text-2xl py-4 z-50 animate-pulse">
           {success}
@@ -87,7 +87,7 @@ console.log(response.data);
       )}
 
       <div className="flex flex-wrap w-10/12 lg:w-6/12 max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="w-full lg:w-6/12 p-8 flex flex-col justify-center">
+        <div className="w-full lg:w-6/12 p-8 flex flex-col justify-center overflow-hidden">
           <h2 className="text-3xl font-bold text-orange-500 mb-6">
             Welcome to SeatR
           </h2>

@@ -1,7 +1,14 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../../components/Navbar";
+import RestaurantList from "../../components/admin/RestaurantList";
 
-export default function AdminDashboard() {
+function AdminDashboard() {
   return (
-    <div>AdminDashboard</div>
-  )
+    <div>
+      <Navbar />
+      <RestaurantList />
+    </div>
+  );
 }
+
+export default AdminDashboard;

@@ -5,7 +5,7 @@ export const NearbyCard = ({ data }) => {
   if (!data) return null; 
 
   return (
-    <Link to="#">
+    <Link to="/slot">
       <div className="border border-gray-200 rounded-xl shadow-md w-full sm:w-[90%] lg:w-auto">
         <div className="relative overflow-hidden rounded-xl aspect-[4/3] sm:aspect-[4/3]">
           <img
