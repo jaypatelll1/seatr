@@ -64,7 +64,7 @@ const loginUser = async (req, res) => {
       name: user.name,
       role: user.role,
     });
-    console.log("token: ",token)
+    // console.log("token: ",token)
 
     // Set cookie with the token
     res.cookie('jwttoken', token, {
@@ -81,6 +81,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        score :user.score,
       },
     });
   } catch (error) {
