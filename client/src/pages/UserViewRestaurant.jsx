@@ -2,58 +2,24 @@ import React, { useEffect, useState } from "react";
 import GoogleMapComponent from "../components/GoogleMapComponent";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-import { useDispatch ,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CloudCog } from "lucide-react";
 
 function UserViewRestaurant() {
-  // const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [cuisineFilter, setCuisineFilter] = useState([]);
   const [ratingFilter, setRatingFilter] = useState([]);
   const [isCuisineDropdownOpen, setIsCuisineDropdownOpen] = useState(false);
   const [isRatingDropdownOpen, setIsRatingDropdownOpen] = useState(false);
   const [isLocationDropdownOpen, setIsLocationDropdownOpen] = useState(false);
+  const [isLocationFilterEnabled, setIsLocationFilterEnabled] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [distanceFilter, setDistanceFilter] = useState(10); // Distance in kilometers
 
-const restaurants = useSelector((state)=>state.restaurant.restaurants)
+  const restaurants = useSelector((state) => state.restaurant.restaurants);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  useEffect(() => {
-// console.log(restaurant)
-    // setRestaurants(restaurant);
-  //   const fetchData = async () => {
-  //     try {
-  //       const params = {};
-        
-  //       // Add parameters only if filters exist
-  //       if (location?.length) params.location = location.join(",");
-  //       if (cuisine?.length) params.cuisine = cuisine.join(",");
-  //       if (ratingFilter) params.rating = ratingFilter;
-  
-  //       console.log("Fetching data with params:", params);
-  
-  //       const response = await axios.get("/api/restaurants", {
-  //         params, // Pass the params object directly
-  //         withCredentials: true,
-  //       });
-  // console.log(response)
-  //       setRestaurants(response.data);
-  //       setFilteredRestaurants(response.data); // Initialize filtered list
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  
-  //   if (location?.length || cuisine?.length || ratingFilter) {
-  //     fetchData(); // Fetch data when filters are applied
-  //   } else {
-      console.log("Using Redux state for restaurants.");
-       // Use data from Redux state
-    
 
-  
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -73,6 +39,7 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
   useEffect(() => {
     let filtered = restaurants;
 
+    // Apply cuisine filter
     if (cuisineFilter.length > 0) {
       filtered = filtered.filter((restaurant) =>
         cuisineFilter.some((filter) =>
@@ -81,13 +48,15 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
       );
     }
 
+    // Apply rating filter
     if (ratingFilter.length > 0) {
       filtered = filtered.filter((restaurant) =>
         ratingFilter.includes(String(parseInt(restaurant.rating)))
       );
     }
 
-    if (userLocation) {
+    // Apply location filter only if enabled
+    if (isLocationFilterEnabled && userLocation) {
       filtered = filtered.filter((restaurant) => {
         const distance = calculateDistance(
           userLocation.lat,
@@ -100,7 +69,7 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
     }
 
     setFilteredRestaurants(filtered);
-  }, []); // Add dependencies
+  }, [restaurants, cuisineFilter, ratingFilter, isLocationFilterEnabled, userLocation, distanceFilter]);
 
   const calculateDistance = (lat1, lng1, lat2, lng2) => {
     const toRadians = (degrees) => (degrees * Math.PI) / 180;
@@ -120,37 +89,22 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
     return earthRadius * c;
   };
 
-  const toggleFilter = (filterType, value) => {
-    const setFilter =
-      filterType === "cuisine"
-        ? setCuisineFilter
-        : setRatingFilter;
-
-    const currentFilter =
-      filterType === "cuisine"
-        ? cuisineFilter
-        : ratingFilter;
-
-    if (currentFilter.includes(value)) {
-      setFilter(currentFilter.filter((filter) => filter !== value));
-    } else {
-      setFilter([...currentFilter, value]);
-    }
+  const toggleLocationFilter = () => {
+    setIsLocationFilterEnabled(!isLocationFilterEnabled);
+    setIsLocationDropdownOpen(!isLocationDropdownOpen);
   };
 
-  const handlecheck = async () => {
-
+  const handleCheck = async () => {
     try {
-      const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants/3" , {withCredentials:true})
-      console.log("response",response)
-      navigate("/tablebooking")
-
+      const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants/3", {
+        withCredentials: true,
+      });
+      console.log("response", response);
+      navigate("/tablebooking");
     } catch (error) {
-      console.error("error is "+error)
+      console.error("error is " + error);
     }
-    
-  }
-  
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -161,76 +115,15 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
         <div className="w-full md:w-1/2 p-4 overflow-y-auto bg-gray-50">
           <h1 className="text-2xl font-semibold mb-4">Restaurants Nearby</h1>
           <div className="flex gap-2 mb-6">
-            {/* Cuisine Filter */}
-            <div className="relative">
-              <button
-                onClick={() => setIsCuisineDropdownOpen(!isCuisineDropdownOpen)}
-                className="px-4 py-2 bg-gray-100 rounded-md"
-              >
-                Cuisine
-              </button>
-              {isCuisineDropdownOpen && (
-                <div className="absolute mt-1 bg-white border rounded-md shadow-md w-48">
-                  {[
-                    "Indian",
-                    "Chinese",
-                    "Italian",
-                    "Mexican",
-                  ].map((cuisine) => (
-                    <label
-                      key={cuisine}
-                      className="flex items-center px-3 py-2"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={cuisineFilter.includes(cuisine.toLowerCase())}
-                        onChange={() =>
-                          toggleFilter("cuisine", cuisine.toLowerCase())
-                        }
-                        className="mr-2"
-                      />
-                      {cuisine}
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Rating Filter */}
-            <div className="relative">
-              <button
-                onClick={() => setIsRatingDropdownOpen(!isRatingDropdownOpen)}
-                className="px-4 py-2 bg-gray-100 rounded-md"
-              >
-                Rating
-              </button>
-              {isRatingDropdownOpen && (
-                <div className="absolute mt-1 bg-white border rounded-md shadow-md w-48">
-                  {["3", "4", "5"].map((rating) => (
-                    <label
-                      key={rating}
-                      className="flex items-center px-3 py-2"
-                    >
-                      <input
-                        type="checkbox"
-                        checked={ratingFilter.includes(rating)}
-                        onChange={() => toggleFilter("rating", rating)}
-                        className="mr-2"
-                      />
-                      {rating} Star
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-
             {/* Location Filter */}
             <div className="relative">
               <button
-                onClick={() => setIsLocationDropdownOpen(!isLocationDropdownOpen)}
-                className="px-4 py-2 bg-gray-100 rounded-md"
+                onClick={toggleLocationFilter}
+                className={`px-4 py-2 rounded-md ${
+                  isLocationFilterEnabled ? "bg-orange-300" : "bg-gray-100"
+                }`}
               >
-                Location
+                {isLocationFilterEnabled ? "Location (On)" : "Location"}
               </button>
               {isLocationDropdownOpen && (
                 <div className="absolute mt-1 bg-white border rounded-md shadow-md w-64 p-3">
@@ -267,7 +160,10 @@ const restaurants = useSelector((state)=>state.restaurant.restaurants)
                 <p className="text-gray-600">{restaurant.address}</p>
                 <p className="text-gray-500">{restaurant.cuisine}</p>
               </div>
-              <button className="ml-auto px-4 py-2 bg-orange-400 text-white rounded-md" onClick={handlecheck}>
+              <button
+                className="ml-auto px-4 py-2 bg-orange-400 text-white rounded-md"
+                onClick={handleCheck}
+              >
                 Check
               </button>
             </div>
