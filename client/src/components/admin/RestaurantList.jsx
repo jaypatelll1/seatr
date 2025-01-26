@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   // Dummy data for restaurants
@@ -8,6 +9,7 @@ export default function AdminDashboard() {
       name: "Slice of Food",
       image: "https://via.placeholder.com/50",
       time: "10:00 AM - 10:00 PM",
+      location: "Mumbai",
       rating: 4.5,
     },
     {
@@ -15,6 +17,7 @@ export default function AdminDashboard() {
       name: "Grill Delight",
       image: "https://via.placeholder.com/50",
       time: "11:00 AM - 11:00 PM",
+      location: "Mumbai",
       rating: 4.7,
     },
     {
@@ -22,6 +25,7 @@ export default function AdminDashboard() {
       name: "Kebab Corner",
       image: "https://via.placeholder.com/50",
       time: "9:00 AM - 9:00 PM",
+      location: "Mumbai",
       rating: 4.2,
     },
     {
@@ -29,6 +33,7 @@ export default function AdminDashboard() {
       name: "Spicy Bites",
       image: "https://via.placeholder.com/50",
       time: "12:00 PM - 12:00 AM",
+      location: "Mumbai",
       rating: 4.8,
     },
     {
@@ -36,6 +41,7 @@ export default function AdminDashboard() {
       name: "Sushi World",
       image: "https://via.placeholder.com/50",
       time: "10:00 AM - 11:00 PM",
+      location: "Mumbai",
       rating: 4.6,
     },
     {
@@ -43,6 +49,7 @@ export default function AdminDashboard() {
       name: "Pasta Paradise",
       image: "https://via.placeholder.com/50",
       time: "8:00 AM - 8:00 PM",
+      location: "Mumbai",
       rating: 4.3,
     },
     {
@@ -50,6 +57,7 @@ export default function AdminDashboard() {
       name: "Taco Fiesta",
       image: "https://via.placeholder.com/50",
       time: "1:00 PM - 12:00 AM",
+      location: "Mumbai",
       rating: 4.1,
     },
     {
@@ -57,6 +65,7 @@ export default function AdminDashboard() {
       name: "Burger Bliss",
       image: "https://via.placeholder.com/50",
       time: "10:00 AM - 10:00 PM",
+      location: "Mumbai",
       rating: 4.4,
     },
     {
@@ -64,6 +73,7 @@ export default function AdminDashboard() {
       name: "Waffle Wonders",
       image: "https://via.placeholder.com/50",
       time: "9:00 AM - 9:00 PM",
+      location: "Mumbai",
       rating: 4.9,
     },
     {
@@ -71,16 +81,22 @@ export default function AdminDashboard() {
       name: "Pizza Perfection",
       image: "https://via.placeholder.com/50",
       time: "11:00 AM - 11:00 PM",
+      location: "Mumbai",
       rating: 4.6,
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Header */}
       <header className="flex justify-between items-center pb-4 border-b">
         <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">
+        <button
+          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600"
+          onClick={() => navigate("/profile")} // Navigate to the profile page
+        >
           Add New Restaurant
         </button>
       </header>
@@ -92,6 +108,7 @@ export default function AdminDashboard() {
             <tr>
               <th className="p-4">Restaurant</th>
               <th className="p-4">Operating Hours</th>
+              <th className="p-4">Location</th>
               <th className="p-4">Rating</th>
             </tr>
           </thead>
@@ -102,14 +119,11 @@ export default function AdminDashboard() {
                 className="border-b hover:bg-gray-50 transition"
               >
                 <td className="p-4 flex items-center gap-4">
-                  <img
-                    src={restaurant.image}
-                    alt={restaurant.name}
-                    className="w-12 h-12 rounded-full"
-                  />
+                  
                   <span>{restaurant.name}</span>
                 </td>
                 <td className="p-4">{restaurant.time}</td>
+                <td className="p-4">{restaurant.location}</td>
                 <td className="p-4">{restaurant.rating} ⭐</td>
               </tr>
             ))}
