@@ -96,10 +96,10 @@ function UserViewRestaurant() {
 
   const handleCheck = async () => {
     try {
-      const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants/3", {
-        withCredentials: true,
-      });
-      console.log("response", response);
+      // const response = await axios.get("https://vision-n5ju.onrender.com/api/restaurants/3", {
+      //   withCredentials: true,
+      // });
+      // console.log("response", response);
       navigate("/tablebooking");
     } catch (error) {
       console.error("error is " + error);
@@ -150,11 +150,7 @@ function UserViewRestaurant() {
               key={restaurant.id}
               className="flex items-center mb-4 p-4 bg-white rounded-lg shadow"
             >
-              <img
-                src={restaurant.image}
-                alt={restaurant.name}
-                className="w-16 h-16 rounded-md object-cover mr-4"
-              />
+              
               <div>
                 <h2 className="text-lg font-semibold">{restaurant.name}</h2>
                 <p className="text-gray-600">{restaurant.address}</p>
@@ -171,7 +167,7 @@ function UserViewRestaurant() {
         </div>
 
         {/* Right Panel */}
-        <div className="w-full md:w-1/2 flex height-auto justify-between items-center rounded-2xl">
+        <div className="w-full md:w-1/2 flex height-auto justify-between items-center  border-2 border-orange-200">
           <GoogleMapComponent
             restaurants={filteredRestaurants}
             userLocation={userLocation}

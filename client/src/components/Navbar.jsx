@@ -31,7 +31,7 @@ function Navbar() {
         <div className="w-screen-xl flex items-center justify-between p-2">
           {/* Logo Section */}
           <a
-            href="https://flowbite.com/"
+            href="/home"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img src={logo} className="h-8" alt="Flowbite Logo" />

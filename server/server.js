@@ -20,6 +20,7 @@ const passwordResetRoutes = require("./routes/passwordreset.routes");
 const tablesRoutes = require('./routes/tableRoutes')
 const bookingRoutes = require('./routes/booking.routes')
 const tokenRoutes = require('./routes/tokenRoutes')
+const email = require('./routes/email.routes')
 
 // middleware
 app.use(express.json());
@@ -46,6 +47,7 @@ app.use('/api/passwordreset', passwordResetRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api', tablesRoutes);
 app.use('/api/bookings',bookingRoutes)
+app.use('/api/email', email);
 
 
 

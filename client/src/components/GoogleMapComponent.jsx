@@ -27,10 +27,9 @@ const GoogleMapComponent = ({ restaurants, userLocation }) => {
         {userLocation && (
           <MarkerF
             position={userLocation}
+            
             title="You are here"
-            icon={{
-              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-            }}
+           
           />
         )}
 
@@ -41,6 +40,9 @@ const GoogleMapComponent = ({ restaurants, userLocation }) => {
             position={{ lat: restaurant.latitude, lng: restaurant.longitude }}
             title={restaurant.name}
             onClick={() => handleMarkerClick(restaurant)}
+            icon={{
+              url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            }}
           />
         ))}
 

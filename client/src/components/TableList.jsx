@@ -27,6 +27,7 @@ const TableList = ({ tables, onTableSelect }) => {
               </p>
             </div>
             <button 
+              onClick={() => window.location.href = '/finalbooking'}
               className={`
                 px-4 py-2 rounded-md text-white font-medium transition-colors duration-300
                 ${table.joinable 

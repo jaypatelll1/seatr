@@ -6,12 +6,12 @@ const TableDetails = () => {
   return (
     <div className="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mr-10">
       {/* Title Section */}
-      <h1 className="text-2xl font-bold mb-2">Milagro</h1>
+      <h1 className="text-2xl font-bold mb-2">Marine Drive</h1>
 
       {/* Location Section */}
       <div className="flex items-center text-gray-600 mb-4">
         <MapPin className="w-5 h-5 text-orange-500 mr-2" />
-        <p>kazi Deiry, Taiger Pass, Chittagong</p>
+        <p>South Mumbai</p>
       </div>
 
       {/* Time Section */}

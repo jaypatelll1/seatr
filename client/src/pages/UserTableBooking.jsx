@@ -114,27 +114,30 @@ const TableBooking = () => {
       <Navbar />
       <div className="flex flex-col items-center bg-gray-100 min-h-screen">
         {/* User Count Input */}
-        <div className="flex items-center my-6">
-          <label className="mr-4 text-lg font-semibold">Number of Users:</label>
+        <div className="flex flex-col items-center w-full my-6 px-4">
+          <label className="mb-2 text-lg font-semibold text-center">Number of Users:</label>
           <input
             type="number"
             min="0"
             value={userCount}
             onChange={(e) => setUserCount(Math.max(0, parseInt(e.target.value, 10) || 0))}
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="p-2 w-full max-w-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter user count"
           />
         </div>
 
         {/* Table List and Details */}
-        <div className="flex w-full max-w-6xl">
-          <div className="w-1/2 pr-4">
+        <div className="flex flex-col md:flex-row w-full max-w-6xl px-4">
+          {/* Table List */}
+          <div className="w-full md:w-1/2 mb-6 md:mb-0 md:pr-4">
             <TableList 
               tables={filteredTables} 
               onTableSelect={setSelectedTable} 
             />
           </div>
-          <div className="w-1/2 pl-4">
+
+          {/* Table Details */}
+          <div className="w-full md:w-1/2 md:pl-4">
             <TableDetails table={selectedTable} />
           </div>
         </div>
